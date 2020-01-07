@@ -1,4 +1,5 @@
 import { successResponse } from '../utils/helpers';
+import Setup from '../models/setup.model';
 
 /**
  * Add recipe to cart
@@ -7,5 +8,9 @@ import { successResponse } from '../utils/helpers';
  * @returns {object} cart string
  */
 export async function setup(req, res) {
-  return successResponse(res, 200, 'setup complete');
+  const { test } = req.body;
+  const newSetup = new Setup({
+    test,
+  });
+  return successResponse(res, 201, 'setup complete', newSetup);
 }
