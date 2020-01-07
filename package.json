@@ -1,0 +1,89 @@
+{
+  "name": "mock-premier-league",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "npm run lint",
+      "git add --force"
+    ],
+    "*.json": [
+      "prettier --write",
+      "git add --force"
+    ]
+  },
+  "testEnvironment": "node",
+  "scripts": {
+    "test": "export NODE_ENV=test && jest --detectOpenHandles --forceExit",
+    "test:coverage": "export NODE_ENV=test && jest --coverage",
+    "test:watch": "export NODE_ENV=test && jest --watchAll --verbose --detectOpenHandles ./src",
+    "clean": "rm -rf build && mkdir build",
+    "build-babel": "babel -d ./build src -s",
+    "build": "npm run clean && npm run build-babel",
+    "heroku-postbuild": "npm run build",
+    "start": "node build/server.js",
+    "start:dev": "NODE_ENV=development nodemon --exec babel-node src/server.js",
+    "lint": "node_modules/eslint/bin/eslint.js src --fix",
+    "prettier": "prettier --write '**/*.{js,jsx}'",
+    "coveralls": "jest --coverage --coverageReporters=text-lcov | coveralls"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dbytecoderc/mock-premier-league.git"
+  },
+  "author": "DC",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dbytecoderc/mock-premier-league/issues"
+  },
+  "homepage": "https://github.com/dbytecoderc/mock-premier-league#readme",
+  "dependencies": {
+    "@babel/cli": "^7.7.7",
+    "@babel/core": "^7.7.7",
+    "@babel/node": "^7.7.7",
+    "@babel/plugin-transform-regenerator": "^7.7.5",
+    "@babel/polyfill": "^7.7.0",
+    "@babel/preset-env": "^7.7.7",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^10.0.3",
+    "babel-jest": "^24.9.0",
+    "bcryptjs": "^2.4.3",
+    "chalk": "^3.0.0",
+    "connect-redis": "^4.0.3",
+    "cors": "^2.8.5",
+    "coveralls": "^3.0.9",
+    "cross-env": "^6.0.3",
+    "dotenv": "^8.2.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-prettier": "^3.1.2",
+    "express": "^4.17.1",
+    "express-session": "^1.17.0",
+    "husky": "^4.0.0",
+    "jest": "^24.9.0",
+    "jsonwebtoken": "^8.5.1",
+    "lint-staged": "^9.5.0",
+    "moment": "^2.24.0",
+    "mongodb": "^3.4.1",
+    "mongodb-memory-server": "^6.2.1",
+    "mongoose": "^5.8.5",
+    "morgan": "^1.9.1",
+    "nodemon": "^2.0.2",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
+    "path": "^0.12.7",
+    "prettier": "^1.19.1",
+    "redis": "^2.8.0",
+    "supertest": "^4.0.2",
+    "uuid": "^3.3.3",
+    "validatorjs": "^3.18.1"
+  }
+}

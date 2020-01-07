@@ -1,0 +1,18 @@
+language: node_js
+node_js:
+  - "lts/*"
+
+install:
+  - npm install
+
+services:
+  - mongodb
+
+before_script:
+  - sudo redis-server /etc/redis/redis.conf --port 6379
+
+scripts:
+  - npm run test
+
+after_success:
+  - npm run coveralls
