@@ -1,0 +1,10 @@
+node_modules/
+coverage/
+doc/
+.babelrc
+.eslintrc
+.eslintignore
+.gitignore
+.hound.yml
+.travis.yml
+.github/
