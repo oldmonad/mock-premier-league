@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import morgan from 'morgan';
 
 import router from './routes';
+import dbconnect from './db/connection';
 
 const app = express();
 
@@ -38,10 +39,14 @@ app.all('*', (req, res) =>
 
 const port = process.env.PORT || 5000;
 
-app.listen(port, () => {
-  console.log(
-    `Server running on ${process.env.NODE_ENV} environment, on port ${port}`,
-  );
+dbconnect().then(async () => {
+  if (!module.parent) {
+    app.listen(port, () => {
+      console.log(
+        `Server running on ${process.env.NODE_ENV} environment, on port ${port}`,
+      );
+    });
+  }
 });
 
 export default app;
