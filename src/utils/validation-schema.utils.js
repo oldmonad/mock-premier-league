@@ -1,8 +1,14 @@
 import Joi from 'joi';
 
 const stringSchema = Joi.string().trim();
-// const numberSchema = Joi.number();
-export const uuidSchema = Joi.string().guid();
+export const uuidSchema = Joi.string()
+  .regex(/^[a-fA-F0-9]{24}$/)
+  .required()
+  .error(() => {
+    return {
+      message: 'ID must be a valid mongodb objectId.',
+    };
+  });
 
 const email = stringSchema
   .email({
@@ -34,3 +40,18 @@ export const loginSchema = Joi.object()
     password: stringSchema.alphanum().required(),
   })
   .options({ ...options });
+
+export const teamSchema = Joi.object()
+  .keys({
+    name: Joi.string()
+      .min(3)
+      .required(),
+    stadium: Joi.string()
+      .min(3)
+      .required(),
+  })
+  .options({ ...options });
+
+export const teamId = Joi.object({
+  teamId: uuidSchema,
+}).options({ ...options });

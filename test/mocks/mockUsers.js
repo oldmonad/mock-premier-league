@@ -1,3 +1,9 @@
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const { ADMIN_PASSWORD, NON_ADMIN_PASSWORD } = process.env;
+
 export const mockUser = {
   name: 'Johnny',
   email: 'johnny@gmail.com',
@@ -63,4 +69,26 @@ export const invalidLoginPasswordInput = {
 export const allLoginFieldsEmpty = {
   email: '',
   password: '',
+};
+
+export const testAdminUser = {
+  name: 'Test admin user',
+  email: 'testadmin@admin.com',
+  password: 'password',
+};
+
+export const loginTestAdminUser = {
+  email: 'testadmin@admin.com',
+  password: 'password',
+};
+
+export const nonAdminUser = {
+  name: 'Test normal user',
+  email: 'testnormal@normal.com',
+  password: 'password',
+};
+
+export const loginNonAdminUser = {
+  email: 'testnormal@normal.com',
+  password: 'password',
 };

@@ -4,10 +4,12 @@ import { bold } from 'chalk';
 
 dotenv.config();
 
+const { NODE_ENV, REDIS_URL } = process.env;
+
 const client =
-  process.env.NODE_ENV === 'development'
+  NODE_ENV === 'development' || NODE_ENV === 'test'
     ? redis.createClient()
-    : redis.createClient(process.env.REDIS_URL);
+    : redis.createClient(REDIS_URL);
 
 const conected = bold.cyan;
 const errorMessage = bold.red;

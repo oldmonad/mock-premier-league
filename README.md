@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/dbytecoderc/mock-premier-league.svg?branch=develop)](https://travis-ci.org/dbytecoderc/mock-premier-league) [![Coverage Status](https://coveralls.io/repos/github/dbytecoderc/mock-premier-league/badge.svg?branch=develop)](https://coveralls.io/github/dbytecoderc/mock-premier-league?branch=develop)
+
 # mock-premier-league
 
 ## Technologies
