@@ -1,8 +1,10 @@
 import { Router } from 'express';
-import setupRouter from './setup.route';
+
+import authRouter from './auth.route';
+import tryCatch from '../utils/try-catch.utils';
 
 const router = Router();
 
-router.use('/test-setup', setupRouter);
+router.use('/auth', tryCatch(authRouter));
 
 export default router;

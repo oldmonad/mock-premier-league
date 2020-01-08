@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 import morgan from 'morgan';
 
 import router from './routes';
-import dbconnect from './db/connection';
+import dbconnect from './db/connection.db';
 
 const app = express();
 

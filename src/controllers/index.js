@@ -1,5 +1,6 @@
-import { setup } from './setup.controller';
+import { login, signup } from './auth.controller';
 
 export default {
-  setup,
+  login,
+  signup,
 };
