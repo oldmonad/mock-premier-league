@@ -1,4 +1,3 @@
-// import moment from 'moment';
 import User from '../models/user.model';
 import {
   errorResponse,
@@ -7,7 +6,10 @@ import {
   generateToken,
   comparePassword,
   excludeProperty,
+  setUsertoRedis,
 } from '../utils/helpers.utils';
+
+import { responseDataOrigin } from '../utils/constants';
 
 /**
  * Create A User
@@ -21,7 +23,7 @@ export async function signup(req, res) {
   const isUserExists = await User.findOne({ email });
 
   if (isUserExists) {
-    return errorResponse(res, 409, 'This user already exists', null);
+    return errorResponse(res, 409, 'This user already exist', null);
   }
 
   const hashedPassword = await hashPassword(password);
@@ -33,21 +35,18 @@ export async function signup(req, res) {
   });
 
   const user = await newUser.save();
-  const userJSON = user.toJSON();
-  const { _id } = user;
-  const token = generateToken({ sub: _id });
 
-  const creatededUser = excludeProperty(userJSON, [
+  const creatededUser = excludeProperty(user, [
     'password',
     '__v',
     'admin',
     'date',
   ]);
-  creatededUser.token = token;
 
   return successResponse(
     res,
     201,
+    responseDataOrigin.db,
     'You have successfully created an account',
     creatededUser,
   );
@@ -81,13 +80,11 @@ export async function login(req, res) {
     );
   }
 
-  const { _id } = user;
+  const { _id, admin } = user;
 
-  const token = generateToken({ sub: _id });
+  const token = generateToken({ sub: _id, admin });
 
-  const userJSON = user.toJSON();
-
-  const authenticatedUser = excludeProperty(userJSON, [
+  const authenticatedUser = excludeProperty(user, [
     'password',
     '__v',
     'admin',
@@ -96,9 +93,12 @@ export async function login(req, res) {
 
   authenticatedUser.token = token;
 
+  await setUsertoRedis(_id);
+
   return successResponse(
     res,
     200,
+    responseDataOrigin.server,
     'You have successfully logged in',
     authenticatedUser,
   );

@@ -6,6 +6,7 @@ import morgan from 'morgan';
 
 import router from './routes';
 import dbconnect from './db/connection.db';
+import seedData from './seeder/seeder';
 
 const app = express();
 
@@ -40,6 +41,7 @@ app.all('*', (req, res) =>
 const port = process.env.PORT || 5000;
 
 dbconnect().then(async () => {
+  await seedData();
   if (!module.parent) {
     app.listen(port, () => {
       console.log(

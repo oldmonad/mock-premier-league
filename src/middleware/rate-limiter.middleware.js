@@ -7,7 +7,16 @@ const { CALL_RATE_WINDOW, MAXIMUM_RATE } = process.env;
 
 import client from '../db/redis.db';
 
-export const rateLimiter = async (req, res, next) => {
+/**
+ *
+ *
+ * @export
+ * @param {object} req
+ * @param {object} res
+ * @param {void} next
+ * @returns {void}
+ */
+export default async function rateLimiter(req, res, next) {
   const { id } = req.user;
 
   client.exists(id, (error, data) => {
@@ -50,11 +59,9 @@ export const rateLimiter = async (req, res, next) => {
       return errorResponse(
         res,
         404,
-        'Your session has expires, please login',
+        'Your session has expired, please login',
         null,
       );
     }
   });
-};
-
-export default client;
+}

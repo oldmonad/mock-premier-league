@@ -1,10 +1,11 @@
 import { Router } from 'express';
 
 import authRouter from './auth.route';
-import tryCatch from '../utils/try-catch.utils';
+import teamRouter from './team.route';
 
 const router = Router();
 
-router.use('/auth', tryCatch(authRouter));
+router.use('/auth', authRouter);
+router.use('/team', teamRouter);
 
 export default router;
