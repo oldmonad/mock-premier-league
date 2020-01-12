@@ -37,7 +37,8 @@ beforeAll(async () => {
 afterAll(async done => {
   await mongoose.disconnect();
   await mongoServer.stop();
-  client.quit();
+  await client.flushall();
+  await client.disconnect();
   done();
 });
 

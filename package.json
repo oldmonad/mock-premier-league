@@ -56,7 +56,9 @@
     "crypto": "^1.0.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-rate-limit": "^5.0.0",
     "express-session": "^1.17.0",
+    "ioredis": "^4.14.1",
     "joi": "^14.3.1",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.24.0",
@@ -64,7 +66,7 @@
     "mongoose": "^5.8.5",
     "morgan": "^1.9.1",
     "path": "^0.12.7",
-    "redis": "^2.8.0",
+    "rate-limit-redis": "^1.7.0",
     "slug": "^2.1.0",
     "uuid": "^3.3.3"
   },

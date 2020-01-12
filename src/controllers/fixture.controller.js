@@ -156,7 +156,7 @@ export async function deleteFixture(req, res) {
 }
 
 /**
- * Get Pending Fixtures
+ * Get Fixtures by status
  * @param {object} req
  * @param {object} res
  * @returns {object} fixture array

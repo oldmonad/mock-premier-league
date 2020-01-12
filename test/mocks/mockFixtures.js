@@ -17,6 +17,13 @@ export const mockCreateFixtureRoute1 = {
   time: '2020-12-13T06:01:17.171Z',
 };
 
+export const mockCreateFixtureWithInvalidTeam = {
+  home: 'Fixture Invalid Route1 FC',
+  away: 'Fixture Route2 FC',
+  location: 'Metropolitano Fixture route',
+  time: '2020-12-13T06:01:17.171Z',
+};
+
 export const mockUpdateFixtureRoute2 = {
   home: 'Fixture Route1 FC',
   away: 'Fixture Route3 FC',

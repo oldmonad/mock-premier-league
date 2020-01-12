@@ -3,7 +3,12 @@ import '@babel/polyfill';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
+import session from 'express-session';
+const redisStore = require('connect-redis')(session);
+import rateLimit from 'express-rate-limit';
+import rateLimitRedisStore from 'rate-limit-redis';
 
+import client from './db/redis.db';
 import router from './routes';
 import dbconnect from './db/connection.db';
 import seedData from './seeder/seeder';
@@ -19,6 +24,33 @@ if (process.env.NODE_ENV === 'development') {
 
 // enable use of dotenv config file.
 dotenv.config();
+
+const { SECRET_KEY, PORT, MAXIMUM_RATE, CALL_RATE_WINDOW } = process.env;
+
+if (process.env.NODE_ENV !== 'test') {
+  app.use(
+    rateLimit({
+      store: new rateLimitRedisStore({
+        client,
+      }),
+      windowMs: CALL_RATE_WINDOW,
+      max: MAXIMUM_RATE,
+    }),
+  );
+}
+
+app.use(
+  session({
+    name: 'sid',
+    secret: SECRET_KEY,
+    store: new redisStore({
+      client,
+      ttl: 86400000,
+    }),
+    saveUninitialized: false,
+    resave: false,
+  }),
+);
 
 app.use(
   express.urlencoded({
@@ -38,14 +70,14 @@ app.all('*', (req, res) =>
   }),
 );
 
-const port = process.env.PORT || 5000;
-
 dbconnect().then(async () => {
   await seedData();
   if (!module.parent) {
-    app.listen(port, () => {
+    app.listen(PORT, () => {
       console.log(
-        `Server running on ${process.env.NODE_ENV} environment, on port ${port}`,
+        `Server running on ${
+          process.env.NODE_ENV
+        } environment, on port ${PORT || 5000}`,
       );
     });
   }

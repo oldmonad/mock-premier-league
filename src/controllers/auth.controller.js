@@ -6,7 +6,6 @@ import {
   generateToken,
   comparePassword,
   excludeProperty,
-  setUsertoRedis,
 } from '../utils/helpers.utils';
 
 import { responseDataOrigin } from '../utils/constants';
@@ -93,7 +92,7 @@ export async function login(req, res) {
 
   authenticatedUser.token = token;
 
-  await setUsertoRedis(_id);
+  req.session.key = authenticatedUser.email;
 
   return successResponse(
     res,

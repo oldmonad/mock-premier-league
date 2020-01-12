@@ -16,6 +16,8 @@ import {
   getAllFixtures,
 } from './fixture.controller';
 
+import { search } from './search.controller';
+
 export default {
   login,
   signup,
@@ -30,4 +32,5 @@ export default {
   getFixturesByStatus,
   getSingleFixture,
   getAllFixtures,
+  search,
 };
