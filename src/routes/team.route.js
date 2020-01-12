@@ -25,6 +25,7 @@ teamRouter.post(
 );
 teamRouter.patch(
   '/:teamId',
+  validateReqParams(teamId),
   validateReqBody(teamSchema),
   checkAuthenticatedUser,
   adminAuth,
@@ -40,10 +41,11 @@ teamRouter.delete(
   tryCatch(Controller.deleteTeam),
 );
 
-teamRouter.get('/', tryCatch(Controller.getTeams));
+teamRouter.get('/', checkAuthenticatedUser, tryCatch(Controller.getTeams));
 teamRouter.get(
   '/:teamId',
   validateReqParams(teamId),
+  checkAuthenticatedUser,
   tryCatch(Controller.getTeam),
 );
 
