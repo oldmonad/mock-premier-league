@@ -1,7 +1,8 @@
 import Joi from 'joi';
 
 const stringSchema = Joi.string().trim();
-export const uuidSchema = Joi.string()
+// export const slug = Joi.string().guid();
+export const objectIdSchema = Joi.string()
   .regex(/^[a-fA-F0-9]{24}$/)
   .required()
   .error(() => {
@@ -53,5 +54,38 @@ export const teamSchema = Joi.object()
   .options({ ...options });
 
 export const teamId = Joi.object({
-  teamId: uuidSchema,
+  teamId: objectIdSchema,
 }).options({ ...options });
+
+export const fixtureSchema = Joi.object()
+  .keys({
+    home: Joi.string()
+      .min(3)
+      .required(),
+    away: Joi.string()
+      .min(3)
+      .required(),
+    location: Joi.string()
+      .min(3)
+      .required(),
+    time: Joi.date()
+      .min('now')
+      .required(),
+  })
+  .options({ ...options });
+
+export const fixtureId = Joi.object({
+  fixtureId: objectIdSchema.required(),
+}).options({ ...options });
+
+export const keyword = Joi.object()
+  .keys({
+    keyword: stringSchema.required(),
+  })
+  .options({ ...options });
+
+export const status = Joi.object()
+  .keys({
+    status: stringSchema.valid(['pending', 'completed']).required(),
+  })
+  .options({ ...options });

@@ -7,6 +7,15 @@ import {
   getTeams,
 } from './team.controller';
 
+import {
+  createFixture,
+  updateFixture,
+  deleteFixture,
+  getFixturesByStatus,
+  getSingleFixture,
+  getAllFixtures,
+} from './fixture.controller';
+
 export default {
   login,
   signup,
@@ -15,4 +24,10 @@ export default {
   deleteTeam,
   getTeam,
   getTeams,
+  createFixture,
+  updateFixture,
+  deleteFixture,
+  getFixturesByStatus,
+  getSingleFixture,
+  getAllFixtures,
 };

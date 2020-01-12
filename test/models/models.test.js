@@ -4,9 +4,18 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 
 import User from '../../src/models/user.model';
 import Team from '../../src/models/team.model';
+import Fixture from '../../src/models/fixture.model';
 import client from '../../src/db/redis.db';
 import { mockUser, mockUser2 } from '../mocks/mockUsers';
-import { mockTeam, mockTeam2 } from '../mocks/mockTeams';
+import {
+  mockTeam,
+  mockTeam2,
+  testTeamForFixture1,
+  testTeamForFixture2,
+  testTeamForFixture3,
+} from '../mocks/mockTeams';
+
+import { mockFixture, mockFixture2 } from '../mocks/mockFixtures';
 
 // May require additional time for downloading MongoDB binaries
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 600000;
@@ -28,7 +37,7 @@ beforeAll(async () => {
 afterAll(async done => {
   await mongoose.disconnect();
   await mongoServer.stop();
-  await client.quit();
+  client.quit();
   done();
 });
 
@@ -135,5 +144,90 @@ describe('TEST SUITE FOR TEAM MODEL', () => {
     await Team.deleteOne({ _id: teamId });
     const teamCount = await Team.countDocuments();
     expect(teamCount).toEqual(1);
+  });
+});
+
+describe('TEST SUITE FOR TEAM MODEL', () => {
+  let user;
+  it('Database should initially be empty', async () => {
+    const fixtureCount = await Fixture.countDocuments();
+    expect(fixtureCount).toEqual(0);
+  });
+
+  it('Should save a fixture', async () => {
+    user = await User.find();
+    testTeamForFixture1.createdBy = user[0];
+    testTeamForFixture2.createdBy = user[0];
+    const fixtureTeam1 = new Team(testTeamForFixture1);
+    const fixtureTeam2 = new Team(testTeamForFixture2);
+
+    const homeTeam = await fixtureTeam1.save();
+    const awayTeam = await fixtureTeam2.save();
+
+    mockFixture.createdBy = user[0];
+    mockFixture.homeTeam = homeTeam;
+    mockFixture.awayTeam = awayTeam;
+
+    const newFixture = new Fixture(mockFixture);
+    const createdFixture = await newFixture.save();
+
+    const fixtureCount = await Fixture.countDocuments();
+    expect(fixtureCount).toEqual(1);
+    expect(createdFixture.location).toEqual('Test san siro');
+    expect(createdFixture.status).toEqual('pending');
+    expect(typeof createdFixture.homeTeam).toBe('object');
+    expect(typeof createdFixture.awayTeam).toBe('object');
+    expect(typeof createdFixture.createdBy).toBe('object');
+    expect(createdFixture.homeTeam.name).toEqual('Fixture1 FC');
+    expect(createdFixture.homeTeam.stadium).toEqual('Fixture1 Siro');
+    expect(createdFixture.awayTeam.name).toEqual('Fixture2 FC');
+    expect(createdFixture.awayTeam.stadium).toEqual('Fixture2 Siro');
+  });
+
+  it('Should retrieve fixtures from the database', async () => {
+    testTeamForFixture3.createdBy = user[0];
+    const fixtureTeam3 = new Team(testTeamForFixture3);
+
+    const homeTeam = await fixtureTeam3.save();
+    const awayTeam = await Team.findOne({ name: 'Fixture1 FC' });
+
+    mockFixture2.createdBy = user[0];
+    mockFixture2.homeTeam = homeTeam;
+    mockFixture2.awayTeam = awayTeam;
+
+    const newFixture = new Fixture(mockFixture2);
+    await newFixture.save();
+
+    const fixtures = await Fixture.find();
+    const fixtureCount = await Fixture.countDocuments();
+
+    expect(Array.isArray(fixtures)).toBe(true);
+    expect(fixtureCount).toEqual(2);
+    expect(typeof fixtures[0]).toBe('object');
+    expect(typeof fixtures[1]).toBe('object');
+    expect(typeof fixtures[2]).toBe('undefined');
+  });
+
+  it('Should update a fixture', async () => {
+    const team = await Team.findOne({ name: 'Fixture2 FC' });
+
+    await Fixture.updateOne(
+      { slug: 'fixture1-fc-fixture3-fc-hlfbzk7jp9uzhvlj' },
+      { $set: { awayTeam: team } },
+    );
+
+    const updatedFixture = await Fixture.findOne({
+      slug: 'fixture1-fc-fixture3-fc-hlfbzk7jp9uzhvlj',
+    });
+
+    expect(updatedFixture.awayTeam).toEqual(team.toJSON());
+  });
+
+  it('Should delete a team from the database', async () => {
+    await Fixture.deleteOne({
+      slug: 'fixture1-fc-fixture3-fc-hlfbzk7jp9uzhvlj',
+    });
+    const fixtureCount = await Fixture.countDocuments();
+    expect(fixtureCount).toEqual(1);
   });
 });

@@ -90,7 +90,7 @@ export async function updateTeam(req, res) {
  * Delete A Team
  * @param {object} req
  * @param {object} res
- * @returns {object} team object
+ * @returns {object} response object
  */
 export async function deleteTeam(req, res) {
   const { teamId } = req.params;

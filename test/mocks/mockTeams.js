@@ -42,3 +42,33 @@ export const inValidTeamData = {
   name: '',
   stadium: '',
 };
+
+export const testTeamForFixture1 = {
+  name: 'Fixture1 FC',
+  stadium: 'Fixture1 Siro',
+};
+
+export const testTeamForFixture2 = {
+  name: 'Fixture2 FC',
+  stadium: 'Fixture2 Siro',
+};
+
+export const testTeamForFixture3 = {
+  name: 'Fixture3 FC',
+  stadium: 'Fixture3 Siro',
+};
+
+export const testTeamForFixtureRoute1 = {
+  name: 'Fixture Route1 FC',
+  stadium: 'Fixture1 Route1 Siro',
+};
+
+export const testTeamForFixtureRoute2 = {
+  name: 'Fixture Route2 FC',
+  stadium: 'Fixture Route2 Siro',
+};
+
+export const testTeamForFixtureRoute3 = {
+  name: 'Fixture Route3 FC',
+  stadium: 'Fixture Route3 Siro',
+};

@@ -54,6 +54,7 @@ export async function checkAuthenticatedUser(req, res, next) {
   try {
     const jwtPayload = await decodeToken(token.split(' ')[1]);
     const user = await User.findOne({ _id: jwtPayload.sub });
+    // console.log(jwtPayload);
 
     if (!user) {
       return errorResponse(res, 400, 'Non-existent user.');
