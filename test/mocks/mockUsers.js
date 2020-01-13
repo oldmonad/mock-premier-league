@@ -77,6 +77,12 @@ export const testAdminUser = {
   password: 'password',
 };
 
+export const secondTestAdminUser = {
+  name: 'Test2 admin user',
+  email: 'testadmin2@admin.com',
+  password: 'password',
+};
+
 export const loginTestAdminUser = {
   email: 'testadmin@admin.com',
   password: 'password',

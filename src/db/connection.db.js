@@ -42,13 +42,12 @@ process.on('SIGINT', async () => {
   });
 });
 
-const options = {
-  useUnifiedTopology: true,
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useFindAndModify: false,
-};
-
-const dbconnect = async () => await connect(dbUrl, options);
+const dbconnect = async () =>
+  await connect(dbUrl, {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+  });
 
 export default dbconnect;

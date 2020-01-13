@@ -106,7 +106,7 @@ export async function updateFixture(req, res) {
   );
 
   const updatedFixtureData = excludeProperty(updatedFixture, ['__v']);
-  const allFixtures = await Team.find({}, { __v: 0 });
+  const allFixtures = await Fixture.find({}, { __v: 0 });
   await saveResourceToRedis('fixtures', allFixtures);
 
   return successResponse(
@@ -156,7 +156,7 @@ export async function deleteFixture(req, res) {
 }
 
 /**
- * Get Pending Fixtures
+ * Get Fixtures by status
  * @param {object} req
  * @param {object} res
  * @returns {object} fixture array
@@ -268,11 +268,11 @@ export async function getSingleFixture(req, res) {
       if (fixturesData.length === 0) {
         const fixture = await Fixture.findOne({ _id: fixtureId });
         if (!fixture) {
-          const allFixtures = await Team.find({}, { __v: 0 });
+          const allFixtures = await Fixture.find({}, { __v: 0 });
           await saveResourceToRedis('fixtures', allFixtures);
           return errorResponse(res, 404, 'This Fixture does not exist');
         }
-        const allFixtures = await Team.find({}, { __v: 0 });
+        const allFixtures = await Fixture.find({}, { __v: 0 });
         await saveResourceToRedis('fixtures', allFixtures);
 
         return successResponse(
@@ -302,12 +302,12 @@ export async function getSingleFixture(req, res) {
     } else {
       const fixture = await Fixture.findOne({ _id: fixtureId });
       if (!fixture) {
-        const allFixtures = await Team.find({}, { __v: 0 });
+        const allFixtures = await Fixture.find({}, { __v: 0 });
         await saveResourceToRedis('fixtures', allFixtures);
         return errorResponse(res, 404, 'This fixture does not exist');
       }
 
-      const allFixtures = await Team.find({}, { __v: 0 });
+      const allFixtures = await Fixture.find({}, { __v: 0 });
       await saveResourceToRedis('fixtures', allFixtures);
 
       return successResponse(

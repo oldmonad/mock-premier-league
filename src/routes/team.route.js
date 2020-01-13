@@ -10,7 +10,6 @@ import {
   validateReqBody,
   validateReqParams,
 } from '../middleware/validate-input.middleware';
-import rateLimiter from '../middleware/rate-limiter.middleware';
 import tryCatch from '../utils/try-catch.utils';
 
 const teamRouter = Router();
@@ -20,7 +19,6 @@ teamRouter.post(
   validateReqBody(teamSchema),
   checkAuthenticatedUser,
   adminAuth,
-  rateLimiter,
   tryCatch(Controller.createTeam),
 );
 teamRouter.patch(
@@ -29,7 +27,7 @@ teamRouter.patch(
   validateReqBody(teamSchema),
   checkAuthenticatedUser,
   adminAuth,
-  rateLimiter,
+
   tryCatch(Controller.updateTeam),
 );
 teamRouter.delete(
@@ -37,7 +35,6 @@ teamRouter.delete(
   validateReqParams(teamId),
   checkAuthenticatedUser,
   adminAuth,
-  rateLimiter,
   tryCatch(Controller.deleteTeam),
 );
 

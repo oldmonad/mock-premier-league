@@ -18,7 +18,7 @@ import {
 import { mockFixture, mockFixture2 } from '../mocks/mockFixtures';
 
 // May require additional time for downloading MongoDB binaries
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 600000;
+// jasmine.DEFAULT_TIMEOUT_INTERVAL = 600000;
 
 let mongoServer;
 
@@ -34,11 +34,11 @@ beforeAll(async () => {
   );
 });
 
-afterAll(async done => {
+afterAll(async () => {
   await mongoose.disconnect();
   await mongoServer.stop();
-  client.quit();
-  done();
+  await client.flushall();
+  await client.disconnect();
 });
 
 describe('TEST SUITE FOR USER MODEL', () => {

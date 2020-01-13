@@ -53,8 +53,19 @@ export async function checkAuthenticatedUser(req, res, next) {
   }
   try {
     const jwtPayload = await decodeToken(token.split(' ')[1]);
-    const user = await User.findOne({ _id: jwtPayload.sub });
-    // console.log(jwtPayload);
+
+    if (process.env.NODE_ENV !== 'test') {
+      if (req.session.key !== jwtPayload.sub) {
+        return errorResponse(
+          res,
+          404,
+          'Your session has expired, please login',
+          null,
+        );
+      }
+    }
+
+    const user = await User.findOne({ email: jwtPayload.sub });
 
     if (!user) {
       return errorResponse(res, 400, 'Non-existent user.');

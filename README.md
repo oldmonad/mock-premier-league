@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.org/dbytecoderc/mock-premier-league.svg?branch=develop)](https://travis-ci.org/dbytecoderc/mock-premier-league) [![Coverage Status](https://coveralls.io/repos/github/dbytecoderc/mock-premier-league/badge.svg?branch=develop)](https://coveralls.io/github/dbytecoderc/mock-premier-league?branch=develop)
-
 # mock-premier-league
+
+[Deployed API on heroku](https://mock-premier-league-challenge.herokuapp.com)
 
 ## Technologies
 
@@ -34,4 +34,17 @@ Follow these steps to set up the app.
 
 #### Try out the endpoints
 
+Download collections here [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/1d4cfeaeb917ed38e157)
+
+Or View documentation [here](https://documenter.getpostman.com/view/6057580/SWLk251i?version=latest)
+
 #### Author: Oparah Dimkpa
+
+#### Admin login details
+
+```
+{
+	"email": "admin@admin.com",
+	"password": "Admin0007"
+}
+```

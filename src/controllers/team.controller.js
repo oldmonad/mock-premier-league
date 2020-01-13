@@ -19,6 +19,12 @@ export async function createTeam(req, res) {
 
   const user = excludeProperty(req.user, ['password', '__v']);
 
+  const existingTeam = await Team.findOne({ name });
+
+  if (existingTeam) {
+    return errorResponse(res, 400, 'Team already exists', null);
+  }
+
   const team = new Team({
     name,
     stadium,

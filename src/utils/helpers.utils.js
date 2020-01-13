@@ -149,18 +149,6 @@ export function excludeProperty(obj, keys) {
   return pick(objJSON, filteredKeys);
 }
 
-export const setUsertoRedis = async id => {
-  return await client.set(
-    id.toString(),
-    JSON.stringify({
-      count: 1,
-      startTime: moment().unix(),
-    }),
-    'EX',
-    360000,
-  );
-};
-
 /**
  *
  *
@@ -183,4 +171,38 @@ export const saveResourceToRedis = async (resourceName, resource) => {
       client.setex(resourceName, 3600, JSON.stringify(resource));
     }
   });
+};
+
+/**
+ *
+ *
+ * @param {string} text
+ * @returns {string} Regex
+ */
+export function escapeRegex(text) {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+}
+
+/**
+ *
+ *
+ * @param {object} model
+ * @param {string} keyword
+ * @param {string} field
+ * @returns {array} model Object
+ */
+export const searchDb = async (model, keyword, field) => {
+  const input = new RegExp(escapeRegex(keyword), 'gi');
+  const returnData = await model.find(
+    { [field]: { $regex: input } },
+    { _id: 0, __v: 0 },
+    (err, data) => {
+      if (err) {
+        return errorResponse(res, 400, 'Something bad happened');
+      }
+      return data;
+    },
+  );
+
+  return returnData;
 };

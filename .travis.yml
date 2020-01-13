@@ -8,11 +8,19 @@ install:
 services:
   - mongodb
 
+env:
+  global:
+    - MONGO_URI_TEST="mongo://travis:test@localhost:27017"
+  
 before_script:
+  - sleep 15
+  - mongo mydb_test --eval 'db.createUser({user:"travis",pwd:"test",roles:["readWrite"]});'
   - sudo redis-server /etc/redis/redis.conf --port 6379
 
 scripts:
-  - npm run test
+  - npm test
 
 after_success:
   - npm run coveralls
+
+

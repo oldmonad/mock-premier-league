@@ -5,7 +5,7 @@ import slug from 'slug';
 import User from '../models/user.model';
 import Team from '../models/team.model';
 import Fixture from '../models/fixture.model';
-// import client from '../db/redis.db';
+import client from '../db/redis.db';
 import { excludeProperty } from '../utils/helpers.utils';
 
 dotenv.config();
@@ -16,7 +16,7 @@ const seedData = async () => {
   await User.deleteMany({});
   await Team.deleteMany({});
   await Fixture.deleteMany({});
-  // await client.flushdb();
+  await client.flushall();
   const user1 = new User({
     _id: '5e1863eeb0eb0406250967ba',
     name: 'Admin user',

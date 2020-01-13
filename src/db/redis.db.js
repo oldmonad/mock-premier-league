@@ -1,4 +1,4 @@
-import redis from 'redis';
+import Redis from 'ioredis';
 import dotenv from 'dotenv';
 import { bold } from 'chalk';
 
@@ -8,8 +8,8 @@ const { NODE_ENV, REDIS_URL } = process.env;
 
 const client =
   NODE_ENV === 'development' || NODE_ENV === 'test'
-    ? redis.createClient()
-    : redis.createClient(REDIS_URL);
+    ? new Redis()
+    : new Redis(REDIS_URL);
 
 const conected = bold.cyan;
 const errorMessage = bold.red;
